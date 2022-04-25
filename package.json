@@ -1,0 +1,21 @@
+{
+  "name": "fuckdoc-monorepo",
+  "version": "1.0.0",
+  "description": "a monorepo for component automatic document generator",
+  "main": "index.js",
+  "private": true,
+  "keywords": [
+    "fuck",
+    "component",
+    "doc",
+    "component doc",
+    "easy doc"
+  ],
+  "scripts": {
+    "dev-client":"cd packages/client && pnpm run dev",
+    "tsup-server": "cd packages/server && pnpm run dev",
+    "start-server": "cd packages/server && node dist/index.js"
+  },
+  "author": "yxc945ya",
+  "license": "ISC"
+}
