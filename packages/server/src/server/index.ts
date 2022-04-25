@@ -22,6 +22,8 @@ export const initServer = (collectData: ICollectItem[]) => {
 
   // 静态目录
   // TODO: 修改成相对路径
+  console.log('---', `${process.cwd()}/mooto`);
+  
   app.use(
     koaStatic(
       path.join(`${process.cwd()}/mooto`), // 默认static文件夹下，也可以改成其他或根目录

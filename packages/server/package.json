@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "tsup --watch"
   },
+  "bin": {
+    "fuckdoc": "./dist/index.js"
+  },
   "author": "yxc945ya",
   "license": "ISC",
   "dependencies": {

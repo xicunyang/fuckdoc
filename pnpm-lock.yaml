@@ -62,6 +62,12 @@ importers:
       webpack-dev-server: 4.8.1_webpack-cli@4.9.2+webpack@5.72.0
       webpack-merge: 5.8.0
 
+  packages/playground:
+    specifiers:
+      fuckdoc: workspace:*
+    dependencies:
+      fuckdoc: link:../server
+
   packages/server:
     specifiers:
       '@koa/cors': ^3.3.0

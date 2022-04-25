@@ -1,3 +1,17 @@
 import { initServer } from './server/index';
+import { loadConfig, scanData } from './utils';
 
-initServer([]);
+const path = require('path');
+
+async function init() {
+  const config = await loadConfig();
+
+  console.log('配置文件加载成功:::', config);
+  const scanRes = scanData(config);
+
+  console.log('扫描项目完成:::', scanRes);
+
+  initServer(scanRes);
+}
+
+init();
