@@ -102,7 +102,7 @@ export const scanData = (config: IConfig) => {
   codeFilePath.forEach(codePath => {
     const temp = fs.readFileSync(codePath, { encoding: 'utf-8' });
     // 使用jsdoc一样的解析器解析注释
-    const parsed = CommentParser(temp) || [];
+    const parsed = CommentParser(temp) || [];    
 
     const tempFCArr: ICodeCommentInfo[] = [];
     const tempFFArr: ICodeCommentInfo[] = [];
@@ -120,13 +120,18 @@ export const scanData = (config: IConfig) => {
         // 解析title、desc
         let title = '';
         let desc = '';
-        tags.forEach(tag => {
+        let startLine = 0;
+        tags.forEach((tag, index) => {
           if (tag.tag === 'title') {
             title = `${tag.name} ${tag.description}`;
           }
 
           if (tag.tag === 'desc') {
             desc = `${tag.name} ${tag.description}`;
+          }
+
+          if(index === 0 && tag.source[0] && tag.source[0].number != null) {
+            startLine = tag.source[0].number;
           }
         });
 
@@ -135,7 +140,8 @@ export const scanData = (config: IConfig) => {
           tempFCArr.push({
             type: 'FC',
             title,
-            desc
+            desc,
+            startLine
           });
         }
 
@@ -143,7 +149,8 @@ export const scanData = (config: IConfig) => {
           tempFFArr.push({
             type: 'FF',
             title,
-            desc
+            desc,
+            startLine
           });
         }
       }

@@ -24,31 +24,46 @@ const App = () => {
       .catch(res => {});
   }, []);
 
+  const handleMenuChange = (type: 'fc' | 'ff') => {
+    setCurrent(type);
+  };
+
   return (
     <div className='fuck-doc'>
       <div className='menu-content'>
         <div className='title-wrapper'>
           <div className='title'>Fuck Doc</div>
-          <div className='desc'>去他的组件文档，我不想写！</div>
+          <div className='desc'>去他 x 的组件文档，我不想写！</div>
         </div>
 
-        <div className="menu">
-          <div className='menu-item'>组件 ( Components )</div>
-          <div className='menu-item'>方法 ( Functions )</div>
+        <div className='menu'>
+          <div
+            className={`menu-item ${current === 'fc' && 'active' }`}
+            onClick={() => {
+              handleMenuChange('fc');
+            }}
+          >
+            组件 ( Components )
+          </div>
+          <div
+            className={`menu-item ${current === 'ff' && 'active' }`}
+            onClick={() => {
+              handleMenuChange('ff');
+            }}
+          >
+            方法 ( Functions )
+          </div>
         </div>
       </div>
 
       <div className='card-content'>
-        <ItemsTab type='fc' items={data?.fc}/>
+        {current === 'fc' && <ItemsTab type='fc' items={data?.fc} />}
+        {current === 'ff' && <div style={{
+          padding: '20px',
+          fontSize: '30px',
+          fontWeight: 200
+        }}>It's coming soon</div>}
       </div>
-      {/* <Tabs defaultActiveKey='1' onChange={() => {}} tabPosition='left'>
-        <TabPane tab='组件(Components)' key='fc'>
-          <ItemsTab type='fc' items={data?.fc}/>
-        </TabPane>
-        <TabPane tab='函数(Functions)' key='ff'>
-          Content of Tab Pane 2
-        </TabPane>
-      </Tabs> */}
     </div>
   );
 };

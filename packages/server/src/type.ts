@@ -2,6 +2,7 @@ export interface ICodeCommentInfo {
   type: 'FC' | 'FF';
   title?: string;
   desc?: string;
+  startLine?: number;
 }
 
 export interface ICollectItem {
@@ -18,7 +19,7 @@ export interface ICollectItemRes {
 
 export interface IData {
   ff: ICollectItemRes[];
-  fc: ICollectItemRes[]
+  fc: ICollectItemRes[];
 }
 
 export interface IConfig {

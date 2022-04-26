@@ -9,7 +9,14 @@ const fs = require('fs');
 const mime = require('mime-types');
 const childProcess = require('child_process');
 const cors = require('koa2-cors');
+const launch = require('launch-editor');
 
+const wait = time =>
+  new Promise(r => {
+    setTimeout(() => {
+      r(true);
+    }, time);
+  });
 
 export const initServer = (collectData: IData) => {
   const app = new Koa();
@@ -44,12 +51,25 @@ export const initServer = (collectData: IData) => {
     ctx.body = file; // 返回图片
   });
 
+  // const doExecCode = sourcePath => {
+  //   const spawn = childProcess.spawnSync('code', [sourcePath]);
+  //   const errorText = spawn.error?.toString().trim();
+  //   return errorText;
+  // };
+
   // 根据资源路径，在vscode中打开资源
-  router.get('/open-source', ctx => {
+  router.get('/open-source', async ctx => {
     const { path } = ctx.request.query;
-    childProcess.exec(`code ${path}`);
+
+    launch(path, 'code', (fileName, errorMsg) => {
+      console.log('done');
+    });
+
+    await wait(1000);
+
+    ctx.type = 'json';
     ctx.body = JSON.stringify({
-      data: true
+      success: true
     });
   });
 
