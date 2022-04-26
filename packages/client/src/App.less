@@ -1,0 +1,63 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+
+.fuck-doc {
+  display: flex;
+  background-color: rgba(235,235,235);
+
+  .menu-content {
+    width: 300px;
+    height: 100vh;
+    padding: 20px;
+    padding-left: 35px;
+
+    .title-wrapper {
+      width: 100%;
+      height: 135px;
+
+      .title {
+          font-size: 40px;
+          font-weight: 600;
+      }
+      
+      .desc {
+          font-weight: 200;
+          font-size: 18px;
+      }
+    }
+
+    .menu {
+        .menu-item {
+            height: 40px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: rgb(125, 124, 124);
+            cursor: pointer;
+            font-weight: 300;
+
+            &:hover {
+                color: black;
+            }
+        }
+    }
+  }
+
+  .card-content {
+    flex: 1;
+    height: 100vh;
+    overflow: scroll;
+  }
+}
+
+// .app-title {
+//     width: 250px;
+//     height: 100px;
+//     font-size: 25px;
+//     background-color: red;
+// }
+// .ant-tabs-ink-bar {
+//   display: none;
+// }

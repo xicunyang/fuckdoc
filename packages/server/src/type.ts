@@ -10,9 +10,15 @@ export interface ICollectItem {
   infos?: ICodeCommentInfo[];
 }
 
+export interface ICollectItemRes {
+  imgPath?: string;
+  codePath?: string;
+  info?: ICodeCommentInfo;
+}
+
 export interface IData {
-  ff: ICollectItem[];
-  fc: ICollectItem[]
+  ff: ICollectItemRes[];
+  fc: ICollectItemRes[]
 }
 
 export interface IConfig {

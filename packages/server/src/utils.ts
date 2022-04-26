@@ -1,5 +1,5 @@
 import { deserialize } from 'v8';
-import { IConfig, ICodeCommentInfo, ICollectItem } from './type';
+import { IConfig, ICodeCommentInfo, ICollectItem, ICollectItemRes } from './type';
 
 const path = require('path');
 const fs = require('fs');
@@ -37,7 +37,7 @@ const commonRequire = (path: string) => {
 };
 
 export const loadConfig = async () => {
-  const configFilePath = path.join(CWD, '/mooto.config.js');
+  const configFilePath = path.join(CWD, '/fuckdoc.config.js');
 
   // 简单处理，用户的配置直接覆盖默认配置
   let config = DefaultConfig;
@@ -52,6 +52,7 @@ export const loadConfig = async () => {
 export const scanData = (config: IConfig) => {
   const { paths = [], suffix = [] } = config;
 
+  // 1、找出所有非文件夹的文件，并去重
   const allFilePathsMap = new Map<string, string>();
 
   paths.forEach(path => {
@@ -61,7 +62,7 @@ export const scanData = (config: IConfig) => {
       const fullPath = `${CWD}/${filePath}`;
       // 过滤掉目录
       if (!isDirectory(fullPath)) {
-        // 去重 && 允许的后缀
+        // 去重
         if (!allFilePathsMap.has(fullPath)) {
           allFilePathsMap.set(fullPath, fullPath);
         }
@@ -71,14 +72,15 @@ export const scanData = (config: IConfig) => {
 
   const fileFiltedPath = [...allFilePathsMap.values()];
 
-  // 搜索到带有标识后缀的图片
+  // 图片路径：文件名带有.fuckdoc.的图片
   const imgFilePath = [];
-  // 搜索到的合法后缀的代码文件
+  // 代码文件：所有合法文件后缀的文件
   const codeFilePath = [];
 
+  // 分类：图片文件 、 代码文件
   fileFiltedPath.forEach(item => {
     // 判断是否是图片
-    if (item.indexOf('.mooto.') > 0) {
+    if (item.indexOf('.fuckdoc.') > 0) {
       return imgFilePath.push(item);
     }
 
@@ -91,12 +93,12 @@ export const scanData = (config: IConfig) => {
     }
   });
 
-  // 遍历代码文件：去文件中扫描注释
   // 组件
   const codeCommentFCMap = new Map<string, ICodeCommentInfo[]>();
   // 方法
   const codeCommentFFMap = new Map<string, ICodeCommentInfo[]>();
 
+  // 遍历代码文件：去文件中扫描注释
   codeFilePath.forEach(codePath => {
     const temp = fs.readFileSync(codePath, { encoding: 'utf-8' });
     // 使用jsdoc一样的解析器解析注释
@@ -109,7 +111,8 @@ export const scanData = (config: IConfig) => {
     parsed.forEach(parseItem => {
       const { description = '', tags = [] } = parseItem;
 
-      // 必须是FuckDoc标识的注释才被记录
+      // 必须是FuckDoc特殊标识的注释才被记录
+      // F:C  or  F:F
       const isFC = description.indexOf('F:C') >= 0;
       const isFF = description.indexOf('F:F') >= 0;
 
@@ -159,34 +162,44 @@ export const scanData = (config: IConfig) => {
   // 有图片，没注释
   // 有图片，有注释
   // 没图片，有注释
-  const FCArr: ICollectItem[] = [];
-  const FFArr: ICollectItem[] = [];
+  const FCArr: ICollectItemRes[] = [];
+  const FFArr: ICollectItemRes[] = [];
 
   // 遍历图片：拼接最终参数
   imgFilePath.forEach(async imgPath => {
-    const codeFullPath = imgPath.split('.mooto.')[0];
+    // 根据图片反推文件地址
+    const codeFullPath = imgPath.split('.fuckdoc.')[0];
 
     // 判断文件是否存在
     if (fileFiltedPath.includes(codeFullPath)) {
       // 是否有注释？
       if (codeCommentFCMap.has(codeFullPath)) {
-        // 有文件，有注释
-        FCArr.push({
-          imgPath,
-          codePath: codeFullPath,
-          infos: codeCommentFCMap.get(codeFullPath)
+        // 有代码文件，且代码文件中有注释
+        // will: 跳转到代码文件中(对应的某一行)
+
+        // 已infos进行遍历，拆分为多条数据
+        const infos = codeCommentFCMap.get(codeFullPath);
+
+        infos.forEach(info => {
+          FCArr.push({
+            imgPath,
+            codePath: codeFullPath,
+            info
+          });
         });
 
         codeCommentFCMap.delete(codeFullPath);
       } else {
-        // 有文件，无注释
+        // 有代码文件，但是没有相关注释
+        // will: 直接跳到代码文件中，第一行
         FCArr.push({
           imgPath,
           codePath: codeFullPath
         });
       }
     } else {
-      // 有图片，无注释文件
+      // 有图片，无代码文件
+      // will: 给warning，该图片没意义
       FCArr.push({
         imgPath
       });
@@ -196,17 +209,21 @@ export const scanData = (config: IConfig) => {
   // 遍历注释，拼接最终参数
   // 组件
   ;[...codeCommentFCMap.keys()].forEach(codePath => {
-    FCArr.push({
-      codePath,
-      infos: codeCommentFCMap.get(codePath)
+    codeCommentFCMap.get(codePath).forEach(info => {
+      FCArr.push({
+        codePath,
+        info
+      });
     });
   })
 
   // 方法
   ;[...codeCommentFFMap.keys()].forEach(codePath => {
-    FFArr.push({
-      codePath,
-      infos: codeCommentFFMap.get(codePath)
+    codeCommentFFMap.get(codePath).forEach(info => {
+      FFArr.push({
+        codePath,
+        info
+      });
     });
   });
 

@@ -12,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^4.20.0",
-    "axios": "^0.26.1"
+    "axios": "^0.26.1",
+    "lodash-es": "^4.17.21",
+    "react-masonry-css": "^1.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -20,6 +22,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "babel-loader": "^8.2.4",

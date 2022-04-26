@@ -4,13 +4,13 @@ export interface ICodeCommentInfo {
   desc?: string;
 }
 
-export interface ICollectItem {
+export interface ICollectItemRes {
   imgPath?: string;
   codePath?: string;
-  infos?: ICodeCommentInfo[];
+  info?: ICodeCommentInfo;
 }
 
 export interface IData {
-  ff: ICollectItem[];
-  fc: ICollectItem[];
+  ff: ICollectItemRes[];
+  fc: ICollectItemRes[];
 }
