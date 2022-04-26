@@ -12,10 +12,5 @@ export interface ICollectItem {
 
 export interface IData {
   ff: ICollectItem[];
-  fc: ICollectItem[]
-}
-
-export interface IConfig {
-  paths?: string[];
-  suffix?: string[];
+  fc: ICollectItem[];
 }

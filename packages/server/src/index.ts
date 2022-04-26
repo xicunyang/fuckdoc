@@ -9,8 +9,6 @@ async function init() {
   console.log('配置文件加载成功:::', config);
   const scanRes = scanData(config);
 
-  console.log('扫描项目完成:::', scanRes);
-
   initServer(scanRes);
 }
 

@@ -1,4 +1,4 @@
-import { ICollectItem } from '../type';
+import { IData } from '../type';
 
 const path = require('path');
 const glob = require('glob');
@@ -11,7 +11,7 @@ const childProcess = require('child_process');
 const cors = require('koa2-cors');
 
 
-export const initServer = (collectData: ICollectItem[]) => {
+export const initServer = (collectData: IData) => {
   const app = new Koa();
   const router = new koaRouter(); // 创建路由，支持传递参数
 
@@ -22,8 +22,6 @@ export const initServer = (collectData: ICollectItem[]) => {
 
   // 静态目录
   // TODO: 修改成相对路径
-  console.log('---', `${process.cwd()}/mooto`);
-  
   app.use(
     koaStatic(
       path.join(`${process.cwd()}/mooto`), // 默认static文件夹下，也可以改成其他或根目录
@@ -50,12 +48,13 @@ export const initServer = (collectData: ICollectItem[]) => {
   router.get('/open-source', ctx => {
     const { path } = ctx.request.query;
     childProcess.exec(`code ${path}`);
+    ctx.body = JSON.stringify({
+      data: true
+    });
   });
 
   // 获取所有数据
   router.get('/data', async ctx => {
-    console.log('this is in ');
-
     ctx.type = 'json';
     ctx.body = JSON.stringify({
       data: collectData
