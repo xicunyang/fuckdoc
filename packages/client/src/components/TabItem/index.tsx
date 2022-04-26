@@ -25,7 +25,7 @@ const TabItem: React.FC<IProps> = ({ type, items = [] }) => {
 
   const handleResize = () => {
     const { innerWidth } = getWindowSize();
-    setBreakpointCols(Math.floor(innerWidth / 400) - 1);
+    setBreakpointCols(Math.floor((innerWidth - 300) / 400) + 1);
   };
 
   React.useLayoutEffect(() => {
