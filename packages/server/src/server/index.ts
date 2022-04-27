@@ -1,4 +1,4 @@
-import { IData } from '../type';
+import { IConfig, IData } from '../type';
 
 const path = require('path');
 const glob = require('glob');
@@ -11,6 +11,7 @@ const childProcess = require('child_process');
 const cors = require('koa2-cors');
 const launch = require('launch-editor');
 const openInEditor = require('open-in-editor');
+const portfinder = require('portfinder');
 
 const wait = time =>
   new Promise(r => {
@@ -19,7 +20,7 @@ const wait = time =>
     }, time);
   });
 
-export const initServer = (collectData: IData) => {
+export const initServer = (collectData: IData, config: IConfig) => {
   const app = new Koa();
   const router = new koaRouter(); // 创建路由，支持传递参数
 
@@ -87,8 +88,7 @@ export const initServer = (collectData: IData) => {
       await wait(1500);
 
       ctx.body = JSON.stringify({
-        success: false,
-        msg: '打开成功'
+        success: true
       });
     } catch (e) {
       ctx.body = JSON.stringify({
@@ -106,7 +106,22 @@ export const initServer = (collectData: IData) => {
     });
   });
 
-  app.listen(9527, () => {
-    console.log('应用已经启动，http://localhost:9527');
-  });
+  portfinder.getPort(
+    {
+      port: 9527,
+      stopPort: 9999
+    },
+    (err, port) => {
+      const { port: configPort } = config;
+      const finalPort = configPort || port;
+
+      app.listen(finalPort, () => {
+        console.log('\n');
+        console.log('\u001b[32m🎉🎉🎉 fuckdoc已经启动 🎉🎉🎉\u001b[0m');
+        console.log('\n');
+        console.log(`\u001b[32m点击 http://127.0.0.1:${finalPort} 试试吧！\u001b[0m`);
+        console.log('\n');
+      });
+    }
+  );
 };

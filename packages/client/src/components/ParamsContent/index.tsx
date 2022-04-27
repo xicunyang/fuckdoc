@@ -15,7 +15,7 @@ const ParamsContent: React.FC<{
       rowKey="name"
       scroll={{ y: 350 }}
       locale={{
-        emptyText: '暂无属性'
+        emptyText: '暂未填写属性'
       }}
       columns={[
         {

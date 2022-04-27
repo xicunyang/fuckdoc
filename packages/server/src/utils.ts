@@ -127,7 +127,7 @@ export const scanData = (config: IConfig) => {
             title = `${tag.name} ${tag.description}`;
           }
 
-          if (tag.tag === 'desc') {
+          if (tag.tag === 'description') {
             desc = `${tag.name} ${tag.description}`;
           }
 

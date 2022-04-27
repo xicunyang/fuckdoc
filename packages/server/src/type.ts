@@ -37,4 +37,5 @@ export interface IData {
 export interface IConfig {
   paths?: string[];
   suffix?: string[];
+  port?: number;
 }

@@ -8,7 +8,7 @@ async function init() {
 
   const scanRes = scanData(config);
 
-  initServer(scanRes);
+  initServer(scanRes, config);
 }
 
 init();

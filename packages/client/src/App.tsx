@@ -3,9 +3,22 @@ import axios from './utils/request';
 import MasonryContent from './components/MasonryContent';
 import ListContent from './components/ListContent';
 import { GithubOutlined } from '@ant-design/icons';
+import { Empty } from 'antd';
 
-import { IData, ResourceType } from './type';
+import { IData, ResourceType, ICollectItemRes } from './type';
 import './App.less';
+
+const EmptyWrapper: React.FC<{
+  length?: number;
+  text?: string;
+  children: React.ReactElement;
+}> = ({ length = 0, text, children }) => {
+  if (!length) {
+    return <Empty description={<span className='empty-desc'>暂无{text}，快去添加吧</span>} />;
+  }
+
+  return children;
+};
 
 const App = () => {
   const [current, setCurrent] = React.useState(ResourceType.FC);
@@ -54,15 +67,26 @@ const App = () => {
         </div>
 
         <div className='menu-footer'>
-          <GithubOutlined className='menu-icon' onClick={()=>{
-            window.open('https://github.com/xicunyang/fuckdoc')
-          }}/>
+          <GithubOutlined
+            className='menu-icon'
+            onClick={() => {
+              window.open('https://github.com/xicunyang/fuckdoc');
+            }}
+          />
         </div>
       </div>
 
       <div className='card-content'>
-        {current === ResourceType.FC && <MasonryContent items={data?.FC} />}
-        {current === ResourceType.FF && <ListContent items={data?.FF} />}
+        {current === ResourceType.FC && (
+          <EmptyWrapper text='组件' length={data?.FC.length}>
+            <MasonryContent items={data?.FC} />
+          </EmptyWrapper>
+        )}
+        {current === ResourceType.FF && (
+          <EmptyWrapper text='方法' length={data?.FF.length}>
+            <ListContent items={data?.FF} />
+          </EmptyWrapper>
+        )}
       </div>
     </div>
   );

@@ -77,9 +77,31 @@ html {
 
   .card-content {
     flex: 1;
+    padding-left: 10px;
   }
 }
 
-.ant-table-thead > tr > th{
-  background-color: rgba(221, 221, 221, 0.8) !important;
+.ant-table-thead > tr > th {
+  background-color: rgba(221, 221, 221, .8) !important;
 }
+
+.ant-empty {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  .ant-empty-image {
+    height: 170px;
+  }
+
+  .empty-desc {
+    color: rgba(100, 100, 100, .6);
+  }
+}
+
+
+// .ant-card-hoverable:hover {
+//   box-shadow: 0 1px 2px -2px rgb(0 0 0 / 25%), 0 3px 6px 0 rgb(0 0 0 / 25%), 0 5px 12px 4px rgb(0 0 0 / 15%) !important;
+// }

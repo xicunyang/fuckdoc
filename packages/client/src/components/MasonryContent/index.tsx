@@ -7,7 +7,7 @@ import { throttle } from 'lodash-es';
 import CopyPre from './../CopyPre';
 import { jumpToCode } from './../../utils/index';
 import ParamsContent from './../ParamsContent';
-
+import { ZoomInOutlined } from '@ant-design/icons';
 interface IProps {
   items?: ICollectItemRes[];
 }
@@ -24,7 +24,8 @@ const PopoverContent: React.FC<{
 }> = ({ item, easyMode = false }) => {
   const [loading, setLoading] = React.useState(false);
 
-  const codePath = item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : '';
+  const codePath =
+    item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : item.codePath;
   const showPath = codePath ? codePath : item.imgPath;
 
   return (
@@ -34,6 +35,14 @@ const PopoverContent: React.FC<{
         <Alert showIcon type='warning' message='组件没有预览图，快去添加吧' style={{ marginBottom: '15px' }}></Alert>
       )}
 
+      {item.imgPath && !item.codePath && (
+        <Alert
+          showIcon
+          type='warning'
+          message='该图片没有对应的代码文件，快去看看怎么回事？'
+          style={{ marginBottom: '15px' }}
+        ></Alert>
+      )}
 
       <div className='title'>{item.info?.title ?? '暂未填写标题'}</div>
       <div className='desc'>{item.info?.desc ?? '暂未填写描述'}</div>
@@ -165,6 +174,15 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
               >
                 {item.imgPath ? (
                   <div className='image-wrapper'>
+                    <div
+                      className='image-wrapper-preview'
+                      onClick={e => {
+                        window.open(`${process.env.HTTP_PATH}/img?path=${item.imgPath}`);
+                        e.stopPropagation();
+                      }}
+                    >
+                      <ZoomInOutlined className='icon'></ZoomInOutlined>
+                    </div>
                     <img src={`${process.env.HTTP_PATH}/img?path=${item.imgPath}`} />
                   </div>
                 ) : (

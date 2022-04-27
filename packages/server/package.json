@@ -1,6 +1,6 @@
 {
   "name": "fuckdoc",
-  "version": "1.0.5",
+  "version": "1.1.2",
   "description": "An NPM package for component document generator",
   "main": "./dist/index.js",
   "scripts": {
@@ -9,6 +9,11 @@
   },
   "bin": {
     "fuckdoc": "dist/index.js"
+  },
+  "homepage": "https://github.com/xicunyang/fuckdoc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xicunyang/fuckdoc.git"
   },
   "files": [
     "dist/index.js",
@@ -30,7 +35,8 @@
     "launch-editor": "^2.3.0",
     "mime-types": "^2.1.35",
     "open-editor": "^4.0.0",
-    "open-in-editor": "^2.2.0"
+    "open-in-editor": "^2.2.0",
+    "portfinder": "^1.0.28"
   },
   "devDependencies": {
     "@types/node": "^17.0.26",

@@ -22,11 +22,37 @@
   
 
   .item-card {
-    // min-width: 400px;
     margin: 5px;
 
+    &:hover .image-wrapper>.image-wrapper-preview {
+      display: flex;
+    }
+
     .image-wrapper {
-      pointer-events: none;
+      position: relative;
+
+      .image-wrapper-preview {
+        position: absolute;
+        top: -16px;
+        right: -16px;
+        width: 35px;
+        height: 35px;
+        background-color: rgba(100, 100, 100, .4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: .5;
+        transition: opacity .5s;
+        display: none;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        .icon {
+          font-size: 20px;
+        }
+      }
       
 
       img {
@@ -98,7 +124,7 @@
 }
 
 .popover-title {
-  color:rgba(50, 50, 50, .8);
+  color: rgba(50, 50, 50, .8);
   font-size: 16px;
   // font-weight: 400;
 }
@@ -131,12 +157,12 @@
 
   .no-preview-image {
     // text-align: center;
-    color: rgba(100, 100, 100, 0.5);
+    color: rgba(100, 100, 100, .5);
   }
 
   .click-and-show-more {
     margin-top: 20px;
     text-align: center;
-    color: rgba(100, 100, 100, 0.5);
+    color: rgba(100, 100, 100, .5);
   }
 }
