@@ -9,15 +9,19 @@ export const jumpToCode = (sourcePath?: string) =>
     }
 
     axios
-      .get(`http://127.0.0.1:9527/open-source?path=${sourcePath}`)
+      .get(`${process.env.HTTP_PATH}/open-source?path=${sourcePath}`)
       .then((res: any) => {
-        const { success } = res;
+        const { success, msg } = res;
         if (success) {
           message.success('打开成功');
           r(true);
+        } else {
+          message.error(msg);
         }
       })
-      .catch(() => {})
+      .catch(e => {
+        message.error(String(e));
+      })
       .finally(() => {
         r(true);
       });

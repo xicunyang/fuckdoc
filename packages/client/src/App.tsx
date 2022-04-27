@@ -14,7 +14,7 @@ const App = () => {
   // 请求数据，向下传递
   React.useEffect(() => {
     axios
-      .get('http://127.0.0.1:9527/data')
+      .get(`${process.env.HTTP_PATH}/data`)
       .then(res => {
         const { data } = res;
         setData(data);
@@ -54,7 +54,9 @@ const App = () => {
         </div>
 
         <div className='menu-footer'>
-          <GithubOutlined className='menu-icon'/>
+          <GithubOutlined className='menu-icon' onClick={()=>{
+            window.open('https://github.com/xicunyang/fuckdoc')
+          }}/>
         </div>
       </div>
 

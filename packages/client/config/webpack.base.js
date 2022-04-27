@@ -1,5 +1,6 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -17,22 +18,28 @@ module.exports = {
             loader: 'less-loader',
             options: {
               lessOptions: {
-                javascriptEnabled: true,
+                javascriptEnabled: true
               }
-            },
-          },
-        ],
-      },
-    ],
+            }
+          }
+        ]
+      }
+    ]
   },
   resolve: {
     alias: {},
-    extensions: ['*', '.vue', '.js', '.jsx', '.tsx', '.ts', '.json'],
+    extensions: ['*', '.vue', '.js', '.jsx', '.tsx', '.ts', '.json']
   },
   plugins: [
     new htmlWebpackPlugin({
       template: path.join(__dirname, '../public/index.html'),
-      filename: 'index.html',
+      filename: 'index.html'
     }),
-  ],
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify({
+        NODE_ENV: process.env.NODE_ENV,
+        HTTP_PATH: isDevelopment ? 'http://127.0.0.1:9527' : ''
+      })
+    })
+  ]
 };

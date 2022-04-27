@@ -1,14 +1,22 @@
 {
   "name": "fuckdoc",
-  "version": "1.0.0",
-  "description": "a monorepo for component automatic document generator",
-  "main": "index.js",
+  "version": "1.0.5",
+  "description": "An NPM package for component document generator",
+  "main": "./dist/index.js",
   "scripts": {
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "bin": {
-    "fuckdoc": "./dist/index.js"
+    "fuckdoc": "dist/index.js"
   },
+  "files": [
+    "dist/index.js",
+    "client/main.js",
+    "client/index.html",
+    "package.json",
+    "README.md"
+  ],
   "author": "yxc945ya",
   "license": "ISC",
   "dependencies": {
@@ -21,6 +29,7 @@
     "koa2-cors": "^2.0.6",
     "launch-editor": "^2.3.0",
     "mime-types": "^2.1.35",
+    "open-editor": "^4.0.0",
     "open-in-editor": "^2.2.0"
   },
   "devDependencies": {

@@ -10,6 +10,7 @@ const mime = require('mime-types');
 const childProcess = require('child_process');
 const cors = require('koa2-cors');
 const launch = require('launch-editor');
+const openInEditor = require('open-in-editor');
 
 const wait = time =>
   new Promise(r => {
@@ -28,10 +29,9 @@ export const initServer = (collectData: IData) => {
   app.use(router.routes());
 
   // 静态目录
-  // TODO: 修改成相对路径
   app.use(
     koaStatic(
-      path.join(`${process.cwd()}/mooto`), // 默认static文件夹下，也可以改成其他或根目录
+      path.join(__dirname, '../', 'client'), // 默认static文件夹下，也可以改成其他或根目录
       {
         index: 'index.html', // 默认为static下的index.html,也可以更改其他名字或者false
         hidden: false,
@@ -57,20 +57,45 @@ export const initServer = (collectData: IData) => {
   //   return errorText;
   // };
 
+  const doOpenEditor = (path: string) =>
+    new Promise((r, j) => {
+      const editor = openInEditor.configure(
+        {
+          editor: 'code'
+        },
+        function (err) {
+          j(err);
+        }
+      );
+
+      editor.open(path).then(
+        function () {
+          r(true);
+        },
+        function (err) {
+          j(err);
+        }
+      );
+    });
+
   // 根据资源路径，在vscode中打开资源
   router.get('/open-source', async ctx => {
     const { path } = ctx.request.query;
 
-    launch(path, 'code', (fileName, errorMsg) => {
-      console.log('done');
-    });
+    try {
+      const res = await doOpenEditor(path);
+      await wait(1500);
 
-    await wait(1000);
-
-    ctx.type = 'json';
-    ctx.body = JSON.stringify({
-      success: true
-    });
+      ctx.body = JSON.stringify({
+        success: false,
+        msg: '打开成功'
+      });
+    } catch (e) {
+      ctx.body = JSON.stringify({
+        success: false,
+        msg: e
+      });
+    }
   });
 
   // 获取所有数据

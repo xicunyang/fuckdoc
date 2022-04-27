@@ -144,9 +144,6 @@ export const scanData = (config: IConfig) => {
           }
         });
 
-        console.log('title:::', title);
-        
-
         // 有注释，分开放
         if (isFC) {
           tempFCArr.push({

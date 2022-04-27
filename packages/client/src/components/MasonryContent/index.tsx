@@ -56,12 +56,8 @@ const PopoverContent: React.FC<{
               loading={loading}
               type='primary'
               onClick={async () => {
-                let { codePath } = item;
-                if (item.info?.startLine) {
-                  codePath += `:${item.info?.startLine}:0`;
-                }
                 setLoading(true);
-                await jumpToCode(codePath ?? item.imgPath);
+                await jumpToCode(showPath);
                 setLoading(false);
               }}
             >
@@ -156,7 +152,7 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
               key={index}
               placement='right'
               content={<PopoverContent item={item} />}
-              title={<div className='popover-title'>组件详情</div>}
+              // title={<div className='popover-title'>组件详情</div>}
               visible={index === activedIndex && isActiving}
               arrowPointAtCenter
             >
@@ -169,7 +165,7 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
               >
                 {item.imgPath ? (
                   <div className='image-wrapper'>
-                    <img src={`http://localhost:9527/img?path=${item.imgPath}`} />
+                    <img src={`${process.env.HTTP_PATH}/img?path=${item.imgPath}`} />
                   </div>
                 ) : (
                   <div>

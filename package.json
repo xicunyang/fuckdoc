@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "dev-client":"cd packages/client && pnpm run dev",
+    "build-client":"cd packages/client && pnpm run build",
     "tsup-server": "cd packages/server && pnpm run dev",
     "start-server": "cd packages/server && node dist/index.js",
     "fuckdoc": "cd packages/playground && npx fuckdoc" 

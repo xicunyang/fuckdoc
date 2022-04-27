@@ -15,6 +15,9 @@ const ListItem: React.FC<{
 }> = ({ item }) => {
   const [loading, setLoading] = React.useState(false);
 
+  const codePath = item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : '';
+  const showPath = codePath ? codePath : item.imgPath;
+
   return (
     <div className='list-item'>
       <div className='title'>{item.info?.title || '暂未填写标题'}</div>
@@ -23,7 +26,7 @@ const ListItem: React.FC<{
         <ParamsContent params={item.info?.params || []} width='600px' />
       </div>
       <div className='path'>
-        <CopyPre text={item.codePath} />
+        <CopyPre text={showPath} />
       </div>
       <div className='footer'>
         <Button
@@ -31,7 +34,7 @@ const ListItem: React.FC<{
           type='primary'
           onClick={async () => {
             setLoading(true);
-            await jumpToCode(item.codePath);
+            await jumpToCode(showPath);
             setLoading(false);
           }}
         >
@@ -43,8 +46,6 @@ const ListItem: React.FC<{
 };
 
 const ListContent: React.FC<IProps> = ({ items }) => {
-  console.log('in');
-
   return (
     <div className='list-content'>
       {items?.map((item, index) => (
