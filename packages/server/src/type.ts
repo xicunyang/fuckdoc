@@ -1,8 +1,20 @@
+export enum ResourceType {
+  FF = 'FF',
+  FC = 'FC'
+}
+
+export interface IParams {
+  name?: string;
+  type?: string;
+  description?: string;
+}
+
 export interface ICodeCommentInfo {
-  type: 'FC' | 'FF';
+  type: ResourceType;
   title?: string;
   desc?: string;
   startLine?: number;
+  params?: IParams[];
 }
 
 export interface ICollectItem {
@@ -18,8 +30,8 @@ export interface ICollectItemRes {
 }
 
 export interface IData {
-  ff: ICollectItemRes[];
-  fc: ICollectItemRes[];
+  [ResourceType.FC]: ICollectItemRes[];
+  [ResourceType.FF]: ICollectItemRes[];
 }
 
 export interface IConfig {

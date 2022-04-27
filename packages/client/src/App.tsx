@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from './utils/request';
-import { Tabs } from 'antd';
-import ItemsTab from './components/TabItem';
-import { IData } from './type';
+import MasonryContent from './components/MasonryContent';
+import ListContent from './components/ListContent';
+import { GithubOutlined } from '@ant-design/icons';
+
+import { IData, ResourceType } from './type';
 import './App.less';
 
-const { TabPane } = Tabs;
-
 const App = () => {
-  const [current, setCurrent] = React.useState('fc');
+  const [current, setCurrent] = React.useState(ResourceType.FC);
   const [data, setData] = React.useState<IData>();
 
   // 请求数据，向下传递
@@ -17,14 +17,12 @@ const App = () => {
       .get('http://127.0.0.1:9527/data')
       .then(res => {
         const { data } = res;
-        console.log('data:::', data);
-
         setData(data);
       })
       .catch(res => {});
   }, []);
 
-  const handleMenuChange = (type: 'fc' | 'ff') => {
+  const handleMenuChange = (type: ResourceType) => {
     setCurrent(type);
   };
 
@@ -38,31 +36,31 @@ const App = () => {
 
         <div className='menu'>
           <div
-            className={`menu-item ${current === 'fc' && 'active' }`}
+            className={`menu-item ${current === ResourceType.FC && 'active'}`}
             onClick={() => {
-              handleMenuChange('fc');
+              handleMenuChange(ResourceType.FC);
             }}
           >
             组件 ( Components )
           </div>
           <div
-            className={`menu-item ${current === 'ff' && 'active' }`}
+            className={`menu-item ${current === ResourceType.FF && 'active'}`}
             onClick={() => {
-              handleMenuChange('ff');
+              handleMenuChange(ResourceType.FF);
             }}
           >
             方法 ( Functions )
           </div>
         </div>
+
+        <div className='menu-footer'>
+          <GithubOutlined className='menu-icon'/>
+        </div>
       </div>
 
       <div className='card-content'>
-        {current === 'fc' && <ItemsTab type='fc' items={data?.fc} />}
-        {current === 'ff' && <div style={{
-          padding: '20px',
-          fontSize: '30px',
-          fontWeight: 200
-        }}>It's coming soon</div>}
+        {current === ResourceType.FC && <MasonryContent items={data?.FC} />}
+        {current === ResourceType.FF && <ListContent items={data?.FF} />}
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-import { deserialize } from 'v8';
-import { IConfig, ICodeCommentInfo, ICollectItem, ICollectItemRes } from './type';
+import { IConfig, ICodeCommentInfo, ResourceType, ICollectItemRes } from './type';
 
 const path = require('path');
 const fs = require('fs');
@@ -116,6 +115,8 @@ export const scanData = (config: IConfig) => {
       const isFC = description.indexOf('F:C') >= 0;
       const isFF = description.indexOf('F:F') >= 0;
 
+      const params = [];
+
       if (isFC || isFF) {
         // 解析title、desc
         let title = '';
@@ -130,27 +131,40 @@ export const scanData = (config: IConfig) => {
             desc = `${tag.name} ${tag.description}`;
           }
 
-          if(index === 0 && tag.source[0] && tag.source[0].number != null) {
+          if(tag.source[0] && tag.source[0].number != null) {
             startLine = tag.source[0].number;
           }
+
+          if(tag.tag === 'param') {
+            params.push({
+              name: tag.name,
+              type: tag.type,
+              description: tag.description,
+            });
+          }
         });
+
+        console.log('title:::', title);
+        
 
         // 有注释，分开放
         if (isFC) {
           tempFCArr.push({
-            type: 'FC',
+            type: ResourceType.FC,
             title,
             desc,
-            startLine
+            startLine,
+            params
           });
         }
 
         if (isFF) {
           tempFFArr.push({
-            type: 'FF',
+            type: ResourceType.FF,
             title,
             desc,
-            startLine
+            startLine,
+            params
           });
         }
       }
@@ -235,7 +249,7 @@ export const scanData = (config: IConfig) => {
   });
 
   return {
-    fc: FCArr,
-    ff: FFArr
+    [ResourceType.FC]: FCArr,
+    [ResourceType.FF]: FFArr
   };
 };

@@ -7,6 +7,7 @@ importers:
 
   packages/client:
     specifiers:
+      '@ant-design/icons': ^4.7.0
       '@babel/core': ^7.17.9
       '@babel/preset-env': ^7.16.11
       '@babel/preset-react': ^7.16.7
@@ -38,6 +39,7 @@ importers:
       webpack-dev-server: ^4.8.1
       webpack-merge: ^5.8.0
     dependencies:
+      '@ant-design/icons': 4.7.0_react-dom@18.0.0+react@18.0.0
       antd: 4.20.0_react-dom@18.0.0+react@18.0.0
       axios: 0.26.1
       copy-to-clipboard: 3.3.1
