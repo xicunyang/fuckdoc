@@ -44,8 +44,8 @@ const PopoverContent: React.FC<{
         ></Alert>
       )}
 
-      <div className='title'>{item.info?.title ?? '暂未填写标题'}</div>
-      <div className='desc'>{item.info?.desc ?? '暂未填写描述'}</div>
+      <div className='title'>{item.info?.title || '暂未填写标题'}</div>
+      <div className='desc'>{item.info?.desc || '暂未填写描述'}</div>
 
       {easyMode && <div className='click-and-show-more'>点击展示更多</div>}
 
