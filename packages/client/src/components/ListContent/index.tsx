@@ -15,8 +15,7 @@ const ListItem: React.FC<{
 }> = ({ item }) => {
   const [loading, setLoading] = React.useState(false);
 
-  const codePath = item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : item.codePath;
-  const showPath = codePath ? codePath : item.imgPath;
+  const showPath = item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : item.codePath;
 
   return (
     <div className='list-item'>

@@ -24,7 +24,7 @@ export interface ICollectItem {
 }
 
 export interface ICollectItemRes {
-  imgPath?: string;
+  imgPaths?: string[];
   codePath?: string;
   info?: ICodeCommentInfo;
 }

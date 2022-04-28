@@ -16,6 +16,7 @@ importers:
       '@types/lodash-es': ^4.17.6
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
+      '@types/react-image-gallery': ^1.0.5
       antd: ^4.20.0
       axios: ^0.26.1
       babel-loader: ^8.2.4
@@ -30,6 +31,7 @@ importers:
       lodash-es: ^4.17.21
       react: ^18.0.0
       react-dom: ^18.0.0
+      react-image-gallery: ^1.2.6
       react-masonry-css: ^1.0.16
       react-refresh: ^0.12.0
       style-loader: ^3.3.1
@@ -46,6 +48,7 @@ importers:
       copy-to-clipboard: 3.3.1
       cross-env: 7.0.3
       lodash-es: 4.17.21
+      react-image-gallery: 1.2.6_react@18.0.0
       react-masonry-css: 1.0.16_react@18.0.0
     devDependencies:
       '@babel/core': 7.17.9
@@ -56,6 +59,7 @@ importers:
       '@types/lodash-es': 4.17.6
       '@types/react': 18.0.6
       '@types/react-dom': 18.0.2
+      '@types/react-image-gallery': 1.0.5
       babel-loader: 8.2.5_acba72ea4bf9d339cdfcd8f55cdb7006
       babel-plugin-import: 1.13.5
       clean-webpack-plugin: 4.0.0_webpack@5.72.0
@@ -1603,6 +1607,12 @@ packages:
 
   /@types/react-dom/18.0.2:
     resolution: {integrity: sha512-UxeS+Wtj5bvLRREz9tIgsK4ntCuLDo0EcAcACgw3E+9wE8ePDr9uQpq53MfcyxyIS55xJ+0B6mDS8c4qkkHLBg==}
+    dependencies:
+      '@types/react': 18.0.6
+    dev: true
+
+  /@types/react-image-gallery/1.0.5:
+    resolution: {integrity: sha512-CjIjFXmV7zGRO/FkdtPK31Rwj0ud7Xz/9e5o4DCX2Lx96jR8+0xCmKeUAQQVN3pKc6jUjOC0f/aEylhKg8vhAw==}
     dependencies:
       '@types/react': 18.0.6
     dev: true
@@ -4911,6 +4921,14 @@ packages:
       react: 18.0.0
       scheduler: 0.21.0
     dev: true
+
+  /react-image-gallery/1.2.6_react@18.0.0:
+    resolution: {integrity: sha512-+uL8RB3YrsXOtL95KY9oLWup2jww95qvvwsHOkRdV1SOImUO4qGuYh/0+M+vuqzBy7AB7G19+KhgucOPetn6+Q==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0
+    dependencies:
+      react: 18.0.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

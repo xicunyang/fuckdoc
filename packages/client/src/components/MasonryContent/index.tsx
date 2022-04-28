@@ -5,9 +5,10 @@ import { Card, Button, Popover, Spin, Alert } from 'antd';
 import Masonry from 'react-masonry-css';
 import { throttle } from 'lodash-es';
 import CopyPre from './../CopyPre';
-import { jumpToCode } from './../../utils/index';
+import { jumpToCode, getImageUrl } from './../../utils/index';
 import ParamsContent from './../ParamsContent';
-import { ZoomInOutlined } from '@ant-design/icons';
+import ImageSlides from './../ImageSlides';
+
 interface IProps {
   items?: ICollectItemRes[];
 }
@@ -23,19 +24,21 @@ const PopoverContent: React.FC<{
   easyMode?: boolean;
 }> = ({ item, easyMode = false }) => {
   const [loading, setLoading] = React.useState(false);
+  // 是否含有图片
+  const hasImage = item.imgPaths && item.imgPaths.length > 0;
 
   const codePath =
     item.info?.startLine != null ? `${`${item.codePath || ''}:${item.info?.startLine}`}:0` : item.codePath;
-  const showPath = codePath ? codePath : item.imgPath;
+  const showPath = codePath ? codePath : item.imgPaths?.[0];
 
   return (
     <div className='popover-content'>
       {/* 没有预览图提示 */}
-      {!item.imgPath && (
+      {!hasImage && (
         <Alert showIcon type='warning' message='组件没有预览图，快去添加吧' style={{ marginBottom: '15px' }}></Alert>
       )}
 
-      {item.imgPath && !item.codePath && (
+      {hasImage && !item.codePath && (
         <Alert
           showIcon
           type='warning'
@@ -156,43 +159,45 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
     <div className={`tab-item-wrapper ${isActiving ? 'disable-scroll' : ''}`}>
       <Spin spinning={loading}>
         <Masonry breakpointCols={breakpointCols} className='my-masonry-grid' columnClassName='my-masonry-grid_column'>
-          {[...items].map((item, index) => (
-            <Popover
-              key={index}
-              placement='right'
-              content={<PopoverContent item={item} />}
-              // title={<div className='popover-title'>组件详情</div>}
-              visible={index === activedIndex && isActiving}
-              arrowPointAtCenter
-            >
-              <Card
-                className={`item-card ${index === activedIndex ? 'card-activing' : ''}`}
-                hoverable
-                onClick={e => {
-                  handleCardClick(e, index);
-                }}
+          {[...items].map((item, index) => {
+            // 是否有图片
+            const hasImage = item.imgPaths && item.imgPaths.length > 0;
+            // 是否是图片数组
+            const isImageArr = item.imgPaths && item.imgPaths.length > 1;
+
+            return (
+              <Popover
+                key={index}
+                placement='right'
+                content={<PopoverContent item={item} />}
+                // title={<div className='popover-title'>组件详情</div>}
+                visible={index === activedIndex && isActiving}
+                arrowPointAtCenter
               >
-                {item.imgPath ? (
-                  <div className='image-wrapper'>
-                    <div
-                      className='image-wrapper-preview'
-                      onClick={e => {
-                        window.open(`${process.env.HTTP_PATH}/img?path=${item.imgPath}`);
-                        e.stopPropagation();
-                      }}
-                    >
-                      <ZoomInOutlined className='icon'></ZoomInOutlined>
+                <Card
+                  className={`item-card ${index === activedIndex ? 'card-activing' : ''}`}
+                  hoverable
+                  onClick={e => {
+                    handleCardClick(e, index);
+                  }}
+                >
+                  {hasImage ? (
+                    <div className='image-wrapper'>
+                      {isImageArr ? (
+                        <ImageSlides images={item.imgPaths || []} />
+                      ) : (
+                        <img src={getImageUrl(item.imgPaths?.[0])} />
+                      )}
                     </div>
-                    <img src={`${process.env.HTTP_PATH}/img?path=${item.imgPath}`} />
-                  </div>
-                ) : (
-                  <div>
-                    <PopoverContent item={item} easyMode />
-                  </div>
-                )}
-              </Card>
-            </Popover>
-          ))}
+                  ) : (
+                    <div>
+                      <PopoverContent item={item} easyMode />
+                    </div>
+                  )}
+                </Card>
+              </Popover>
+            );
+          })}
         </Masonry>
       </Spin>
       {isActiving && <div className='tab-mask' onClick={handleDisableActiving}></div>}

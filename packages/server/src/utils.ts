@@ -42,9 +42,11 @@ export const loadConfig = async () => {
   let config = DefaultConfig;
   const isConfigFileExists = await fileExists(configFilePath);
   if (isConfigFileExists) {
-    config = commonRequire(configFilePath);
+    const userConfig = commonRequire(configFilePath);
+    if (Object.keys(userConfig).length) {
+      config = userConfig;
+    }
   }
-
   return config;
 };
 
@@ -101,7 +103,7 @@ export const scanData = (config: IConfig) => {
   codeFilePath.forEach(codePath => {
     const temp = fs.readFileSync(codePath, { encoding: 'utf-8' });
     // 使用jsdoc一样的解析器解析注释
-    const parsed = CommentParser(temp) || [];    
+    const parsed = CommentParser(temp) || [];
 
     const tempFCArr: ICodeCommentInfo[] = [];
     const tempFFArr: ICodeCommentInfo[] = [];
@@ -131,15 +133,15 @@ export const scanData = (config: IConfig) => {
             desc = `${tag.name} ${tag.description}`;
           }
 
-          if(tag.source[0] && tag.source[0].number != null) {
+          if (tag.source[0] && tag.source[0].number != null) {
             startLine = tag.source[0].number;
           }
 
-          if(tag.tag === 'param') {
+          if (tag.tag === 'param') {
             params.push({
               name: tag.name,
               type: tag.type,
-              description: tag.description,
+              description: tag.description
             });
           }
         });
@@ -183,10 +185,20 @@ export const scanData = (config: IConfig) => {
   const FCArr: ICollectItemRes[] = [];
   const FFArr: ICollectItemRes[] = [];
 
-  // 遍历图片：拼接最终参数
-  imgFilePath.forEach(async imgPath => {
+  // 为了处理多图的模式
+  const imgFilePathMap = new Map<string, string[]>();
+
+  imgFilePath.forEach(imgFullPath => {
     // 根据图片反推文件地址
-    const codeFullPath = imgPath.split('.fuckdoc.')[0];
+    const codeFullPath = imgFullPath.split('.fuckdoc.')[0];
+    if (imgFilePathMap.get(codeFullPath)) {
+      imgFilePathMap.get(codeFullPath).push(imgFullPath);
+    } else {
+      imgFilePathMap.set(codeFullPath, [imgFullPath]);
+    }
+  });
+  [...imgFilePathMap.keys()].forEach(codeFullPath => {
+    const imgPaths = imgFilePathMap.get(codeFullPath);
 
     // 判断文件是否存在
     if (fileFiltedPath.includes(codeFullPath)) {
@@ -200,7 +212,7 @@ export const scanData = (config: IConfig) => {
 
         infos.forEach(info => {
           FCArr.push({
-            imgPath,
+            imgPaths,
             codePath: codeFullPath,
             info
           });
@@ -211,7 +223,7 @@ export const scanData = (config: IConfig) => {
         // 有代码文件，但是没有相关注释
         // will: 直接跳到代码文件中，第一行
         FCArr.push({
-          imgPath,
+          imgPaths,
           codePath: codeFullPath
         });
       }
@@ -219,7 +231,7 @@ export const scanData = (config: IConfig) => {
       // 有图片，无代码文件
       // will: 给warning，该图片没意义
       FCArr.push({
-        imgPath
+        imgPaths
       });
     }
   })

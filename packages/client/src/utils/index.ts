@@ -26,3 +26,7 @@ export const jumpToCode = (sourcePath?: string) =>
         r(true);
       });
   });
+
+export const getImageUrl = (imgPath = '') => {
+  return `${process.env.HTTP_PATH}/img?path=${imgPath}`;
+}
