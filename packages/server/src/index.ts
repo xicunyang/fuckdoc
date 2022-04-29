@@ -1,14 +1,10 @@
-import { initServer } from './server/index';
-import { loadConfig, scanData } from './utils';
+import { startServer } from './server/index';
+import startSharp from './sharp/index';
 
-const path = require('path');
+const isSharp = process.argv.filter(item => item.indexOf('sharp') >= 0).length > 0;
 
-async function init() {
-  const config = await loadConfig();
-
-  const scanRes = scanData(config);
-
-  initServer(scanRes, config);
+if (isSharp) {
+  startSharp();
+} else {
+  startServer();
 }
-
-init();

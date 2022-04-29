@@ -22,7 +22,8 @@ const getWindowSize = () => ({
 const PopoverContent: React.FC<{
   item: ICollectItemRes;
   easyMode?: boolean;
-}> = ({ item, easyMode = false }) => {
+  wrapperPadding?: string;
+}> = ({ item, easyMode = false, wrapperPadding = '15px' }) => {
   const [loading, setLoading] = React.useState(false);
   // 是否含有图片
   const hasImage = item.imgPaths && item.imgPaths.length > 0;
@@ -32,7 +33,7 @@ const PopoverContent: React.FC<{
   const showPath = codePath ? codePath : item.imgPaths?.[0];
 
   return (
-    <div className='popover-content'>
+    <div className='popover-content' style={{ padding: wrapperPadding }}>
       {/* 没有预览图提示 */}
       {!hasImage && (
         <Alert showIcon type='warning' message='组件没有预览图，快去添加吧' style={{ marginBottom: '15px' }}></Alert>
@@ -162,14 +163,12 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
           {[...items].map((item, index) => {
             // 是否有图片
             const hasImage = item.imgPaths && item.imgPaths.length > 0;
-            // 是否是图片数组
-            const isImageArr = item.imgPaths && item.imgPaths.length > 1;
 
             return (
               <Popover
                 key={index}
                 placement='right'
-                content={<PopoverContent item={item} />}
+                content={<PopoverContent item={item} wrapperPadding='' />}
                 // title={<div className='popover-title'>组件详情</div>}
                 visible={index === activedIndex && isActiving}
                 arrowPointAtCenter
@@ -183,11 +182,7 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
                 >
                   {hasImage ? (
                     <div className='image-wrapper'>
-                      {isImageArr ? (
-                        <ImageSlides images={item.imgPaths || []} />
-                      ) : (
-                        <img src={getImageUrl(item.imgPaths?.[0])} />
-                      )}
+                      <ImageSlides images={item.imgPaths || []} />
                     </div>
                   ) : (
                     <div>

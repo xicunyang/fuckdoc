@@ -50,7 +50,8 @@ export const loadConfig = async () => {
   return config;
 };
 
-export const scanData = (config: IConfig) => {
+export const scanFile = async () => {
+  const config = await loadConfig();
   const { paths = [], suffix = [] } = config;
 
   // 1、找出所有非文件夹的文件，并去重
@@ -94,6 +95,11 @@ export const scanData = (config: IConfig) => {
     }
   });
 
+  return [imgFilePath, codeFilePath, fileFiltedPath];
+};
+
+export const scanData = async () => {
+  const [imgFilePath, codeFilePath, fileFiltedPath] = await scanFile();
   // 组件
   const codeCommentFCMap = new Map<string, ICodeCommentInfo[]>();
   // 方法

@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-   
-  },
+  "scripts": {},
   "dependencies": {
+    "ansi-colors": "^4.1.1",
     "fuckdoc": "workspace:*"
   },
   "author": "",

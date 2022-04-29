@@ -1,4 +1,5 @@
 import { IConfig, IData } from '../type';
+import { loadConfig, scanData } from './../utils';
 
 const path = require('path');
 const glob = require('glob');
@@ -12,12 +13,34 @@ const cors = require('koa2-cors');
 const launch = require('launch-editor');
 const openInEditor = require('open-in-editor');
 const portfinder = require('portfinder');
+const colors = require('ansi-colors');
 
 const wait = time =>
   new Promise(r => {
     setTimeout(() => {
       r(true);
     }, time);
+  });
+
+const doOpenEditor = (path: string) =>
+  new Promise((r, j) => {
+    const editor = openInEditor.configure(
+      {
+        editor: 'code'
+      },
+      function (err) {
+        j(err);
+      }
+    );
+
+    editor.open(path).then(
+      function () {
+        r(true);
+      },
+      function (err) {
+        j(err);
+      }
+    );
   });
 
 export const initServer = (collectData: IData, config: IConfig) => {
@@ -58,27 +81,6 @@ export const initServer = (collectData: IData, config: IConfig) => {
   //   return errorText;
   // };
 
-  const doOpenEditor = (path: string) =>
-    new Promise((r, j) => {
-      const editor = openInEditor.configure(
-        {
-          editor: 'code'
-        },
-        function (err) {
-          j(err);
-        }
-      );
-
-      editor.open(path).then(
-        function () {
-          r(true);
-        },
-        function (err) {
-          j(err);
-        }
-      );
-    });
-
   // 根据资源路径，在vscode中打开资源
   router.get('/open-source', async ctx => {
     const { path } = ctx.request.query;
@@ -117,11 +119,18 @@ export const initServer = (collectData: IData, config: IConfig) => {
 
       app.listen(finalPort, () => {
         console.log('\n');
-        console.log('\u001b[32m🎉🎉🎉 fuckdoc已经启动 🎉🎉🎉\u001b[0m');
+        console.log(colors.green('🎉🎉🎉 fuckdoc已经启动 🎉🎉🎉'));
         console.log('\n');
-        console.log(`\u001b[32m点击 http://127.0.0.1:${finalPort} 试试吧！\u001b[0m`);
+        console.log(colors.green(`点击 http://127.0.0.1:${finalPort} 试试吧！`));
         console.log('\n');
       });
     }
   );
 };
+
+export async function startServer() {
+  const config = await loadConfig();
+  const scanRes = await scanData();
+
+  initServer(scanRes, config);
+}

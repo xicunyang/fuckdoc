@@ -5,7 +5,7 @@ import ListContent from './components/ListContent';
 import { GithubOutlined } from '@ant-design/icons';
 import { Empty } from 'antd';
 
-import { IData, ResourceType, ICollectItemRes } from './type';
+import { IData, ResourceType } from './type';
 import './App.less';
 
 const EmptyWrapper: React.FC<{

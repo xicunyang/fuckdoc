@@ -21,7 +21,7 @@
   
   .image-gallery-fullscreen-button {
     position: absolute;
-    top: -5px !important;
+    top: 10px !important;
     right: -5px !important;
     height: 50px;
     width: 50px;
@@ -36,3 +36,23 @@
   .image-gallery-icon {
     display: none;
   }
+
+  .tab-item-wrapper .item-card .image-wrapper img {
+    min-height: 170px;
+    background-color: rgba(100, 100, 100, 0.2);
+  }
+
+  .fullscreen.image-gallery-content {
+    .image-gallery-swipe {
+      height: 100vh;
+  
+      .image-gallery-slides {
+        height: 100%;
+  
+        .image-gallery-slide {
+          height: 100%;
+        }
+      }
+    }
+  }
+  

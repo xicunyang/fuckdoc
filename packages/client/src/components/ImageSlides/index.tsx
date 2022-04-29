@@ -12,7 +12,7 @@ const ImageSlides: React.FC<IProps> = ({ images }) => {
   const imageArr = images.map(img => ({
     original: getImageUrl(img)
   }));
-  return <ImageGallery showPlayButton={false} items={imageArr} />;
+  return <ImageGallery showThumbnails={false} showPlayButton={false} items={imageArr} />;
 };
 
 export default ImageSlides;
