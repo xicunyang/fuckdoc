@@ -1,58 +1,57 @@
 // 轮播图左右按钮
 .image-gallery-icon.image-gallery-left-nav {
+  .image-gallery-svg {
+    height: 80px;
+    width: 40px;
+  }
+}
 
-    .image-gallery-svg {
-      height: 80px;
-      width: 40px;
-    }
-  }
-  
-  .image-gallery-icon.image-gallery-right-nav {
-    // display: none;
-    font-size: 30px;
-  
-    .image-gallery-svg {
-      height: 80px;
-      width: 40px;
-    }
-  }
-  
-  // 轮播图全屏按钮
-  
-  .image-gallery-fullscreen-button {
-    position: absolute;
-    top: 10px !important;
-    right: -5px !important;
-    height: 50px;
-    width: 50px;
-    padding: 0 !important;
-  
-    svg {
-      width: 32px !important;
-      height: 32px !important;
-    }
-  }
-  
-  .image-gallery-icon {
-    display: none;
-  }
+.image-gallery-icon.image-gallery-right-nav {
+  // display: none;
+  font-size: 30px;
 
-  .tab-item-wrapper .item-card .image-wrapper img {
-    min-height: 170px;
-    background-color: rgba(100, 100, 100, 0.2);
+  .image-gallery-svg {
+    height: 80px;
+    width: 40px;
   }
+}
 
-  .fullscreen.image-gallery-content {
-    .image-gallery-swipe {
-      height: 100vh;
-  
-      .image-gallery-slides {
+// 轮播图全屏按钮
+
+.image-gallery-fullscreen-button {
+  position: absolute;
+  top: 10px !important;
+  right: -5px !important;
+  height: 50px;
+  width: 50px;
+  padding: 0 !important;
+
+  svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+.image-gallery-icon {
+  display: none;
+}
+
+.tab-item-wrapper .item-card .image-wrapper img {
+  min-height: 170px;
+  background-color: rgba(100, 100, 100, 0.2);
+}
+
+.fullscreen.image-gallery-content {
+  .image-gallery-swipe,
+  .image-gallery-slide-wrapper {
+    height: 100vh;
+
+    .image-gallery-slides {
+      height: 100%;
+
+      .image-gallery-slide {
         height: 100%;
-  
-        .image-gallery-slide {
-          height: 100%;
-        }
       }
     }
   }
-  
+}
