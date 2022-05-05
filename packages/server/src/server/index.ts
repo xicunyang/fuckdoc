@@ -1,5 +1,6 @@
 import { IConfig, IData } from '../type';
-import { loadConfig, scanData } from './../utils';
+import { loadConfig, scanData, CWD, debounce } from './../utils';
+import { WebSocketServer } from 'ws';
 
 const path = require('path');
 const glob = require('glob');
@@ -14,6 +15,9 @@ const launch = require('launch-editor');
 const openInEditor = require('open-in-editor');
 const portfinder = require('portfinder');
 const colors = require('ansi-colors');
+const chokidar = require('chokidar');
+
+let globalData: IData, globalWs;
 
 const wait = time =>
   new Promise(r => {
@@ -43,7 +47,7 @@ const doOpenEditor = (path: string) =>
     );
   });
 
-export const initServer = (collectData: IData, config: IConfig) => {
+export const initServer = (config: IConfig) => {
   const app = new Koa();
   const router = new koaRouter(); // 创建路由，支持传递参数
 
@@ -104,7 +108,7 @@ export const initServer = (collectData: IData, config: IConfig) => {
   router.get('/data', async ctx => {
     ctx.type = 'json';
     ctx.body = JSON.stringify({
-      data: collectData
+      data: globalData
     });
   });
 
@@ -128,9 +132,50 @@ export const initServer = (collectData: IData, config: IConfig) => {
   );
 };
 
+async function refreshData() {
+  globalData = await scanData();
+
+  globalWs &&
+    globalWs.send(
+      JSON.stringify({
+        type: 'Refresh'
+      })
+    );
+}
+
+function initWatch(config: IConfig) {
+  const { paths } = config;
+
+  const watcher = chokidar.watch(paths, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true
+  });
+
+  const debounceRefreshData = debounce(refreshData, 1000);
+
+  watcher.on('all', path => {
+    debounceRefreshData();
+  });
+}
+
+function initWs() {
+  const wss = new WebSocketServer({ port: 10357 });
+
+  wss.on('connection', function connection(ws) {
+    globalWs = ws;
+  });
+}
+
 export async function startServer() {
   const config = await loadConfig();
-  const scanRes = await scanData();
+  globalData = await scanData();
 
-  initServer(scanRes, config);
+  // 初始化websocket
+  initWs();
+
+  // 初始化server
+  initServer(config);
+
+  // 初始化监听
+  initWatch(config);
 }

@@ -26,13 +26,30 @@ const App = () => {
 
   // 请求数据，向下传递
   React.useEffect(() => {
-    axios
-      .get(`${process.env.HTTP_PATH}/data`)
-      .then(res => {
-        const { data } = res;
-        setData(data);
-      })
-      .catch(res => {});
+    function fetchData() {
+      axios
+        .get(`${process.env.HTTP_PATH}/data`)
+        .then(res => {
+          const { data } = res;
+          setData(data);
+          document.title = data.title || 'fuckdoc(组件文档)';
+        })
+        .catch(res => {});
+    }
+
+    fetchData();
+
+    // 创建ws，server在刷新完数据后，触发更新请求
+    const ws = new WebSocket('ws://localhost:10357');
+
+    ws.onmessage = evt => {
+      const data = JSON.parse(evt.data);
+      const { type } = data || {};
+
+      if (type === 'Refresh') {
+        fetchData();
+      }
+    };
   }, []);
 
   const handleMenuChange = (type: ResourceType) => {

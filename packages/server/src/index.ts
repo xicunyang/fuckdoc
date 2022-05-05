@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { startServer } from './server/index';
 import startSharp from './sharp/index';
 

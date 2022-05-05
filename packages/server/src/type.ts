@@ -32,10 +32,12 @@ export interface ICollectItemRes {
 export interface IData {
   [ResourceType.FC]: ICollectItemRes[];
   [ResourceType.FF]: ICollectItemRes[];
+  title?: string;
 }
 
 export interface IConfig {
   paths?: string[];
   suffix?: string[];
   port?: number;
+  title?: string;
 }

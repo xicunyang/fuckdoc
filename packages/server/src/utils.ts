@@ -263,8 +263,23 @@ export const scanData = async () => {
     });
   });
 
+  const config = await loadConfig();
+
   return {
     [ResourceType.FC]: FCArr,
-    [ResourceType.FF]: FFArr
+    [ResourceType.FF]: FFArr,
+    title: config.title
   };
 };
+
+export function debounce(fn, wait = 50) {
+  let timer = null;
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, wait);
+  };
+}
