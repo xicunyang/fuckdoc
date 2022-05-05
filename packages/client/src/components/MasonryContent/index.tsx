@@ -101,7 +101,7 @@ const MasonryContent: React.FC<IProps> = ({ items = [] }) => {
   // 处理浏览器onsize
   const handleResize = () => {
     const { innerWidth } = getWindowSize();
-    setBreakpointCols(Math.floor((innerWidth - 300) / 400) + 1);
+    setBreakpointCols(Math.floor((innerWidth - 300) / 600) + 1);
   };
 
   // 处理按键按下

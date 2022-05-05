@@ -174,6 +174,9 @@ module.exports = {
   
   // 文档启动端口，程序默认会找一个可用端口，如果需要固定，可以在此设置
   port: 9528,
+
+  // 文档title，tab页展示
+  title: 'this is a example',
 };
 
 ```
