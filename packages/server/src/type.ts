@@ -33,6 +33,7 @@ export interface IData {
   [ResourceType.FC]: ICollectItemRes[];
   [ResourceType.FF]: ICollectItemRes[];
   title?: string;
+  wsPort?: number;
 }
 
 export interface IConfig {

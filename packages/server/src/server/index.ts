@@ -17,7 +17,7 @@ const portfinder = require('portfinder');
 const colors = require('ansi-colors');
 const chokidar = require('chokidar');
 
-let globalData: IData, globalWs;
+let globalData: IData, globalWs, globalWsPort;
 
 const wait = time =>
   new Promise(r => {
@@ -108,7 +108,10 @@ export const initServer = (config: IConfig) => {
   router.get('/data', async ctx => {
     ctx.type = 'json';
     ctx.body = JSON.stringify({
-      data: globalData
+      data: {
+        ...globalData,
+        wsPort: globalWsPort
+      }
     });
   });
 
@@ -158,12 +161,23 @@ function initWatch(config: IConfig) {
   });
 }
 
-function initWs() {
-  const wss = new WebSocketServer({ port: 10357 });
+function initWs(callback) {
+  portfinder.getPort(
+    {
+      port: 10357,
+      stopPort: 10400
+    },
+    (err, port) => {
+      globalWsPort = port;
+      callback();
 
-  wss.on('connection', function connection(ws) {
-    globalWs = ws;
-  });
+      const wss = new WebSocketServer({ port });
+
+      wss.on('connection', function connection(ws) {
+        globalWs = ws;
+      });
+    }
+  );
 }
 
 export async function startServer() {
@@ -171,11 +185,11 @@ export async function startServer() {
   globalData = await scanData();
 
   // 初始化websocket
-  initWs();
+  initWs(() => {
+    // 初始化server
+    initServer(config);
 
-  // 初始化server
-  initServer(config);
-
-  // 初始化监听
-  initWatch(config);
+    // 初始化监听
+    initWatch(config);
+  });
 }
