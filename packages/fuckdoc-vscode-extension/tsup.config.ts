@@ -1,10 +1,10 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/extension.ts'],
   clean: true,
-  dts: true,
+  // dts: true,
   outDir: "dist",
-  format: ['cjs', 'esm'],
+  format: ['cjs'],
   external: ['vscode']
 });
