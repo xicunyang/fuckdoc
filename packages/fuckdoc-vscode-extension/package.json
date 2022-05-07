@@ -1,23 +1,40 @@
 {
   "name": "fuckdoc-vscode-extension",
   "displayName": "fuckdoc-vscode-extension",
-  "description": "",
-  "version": "0.0.1",
+  "description": "a vscode extension for fuckdoc",
+  "publisher": "xicunyang",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.66.0"
   },
+  "icon":"icon.png",
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:fuckdoc.addPic",
+    "onCommand:fuckdoc.addAnnotationFF",
+    "onCommand:fuckdoc.addAnnotationFC"
   ],
   "main": "./dist/extension.js",
+  "homepage": "https://github.com/xicunyang/fuckdoc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xicunyang/fuckdoc.git"
+  },
   "contributes": {
     "commands": [
       {
         "command": "fuckdoc.addPic",
         "title": "fuckdoc: 为该组件添加图片"
+      },
+      {
+        "command": "fuckdoc.addAnnotationFF",
+        "title": "fuckdoc: 添加方法注释 F:F"
+      },
+      {
+        "command": "fuckdoc.addAnnotationFC",
+        "title": "fuckdoc: 添加组件注释 F:C"
       }
     ],
     "menus": {
@@ -26,14 +43,24 @@
           "command": "fuckdoc.addPic",
           "group": "group1"
         }
+      ],
+      "editor/context": [
+        {
+          "command": "fuckdoc.addAnnotationFC",
+          "group": "mygroup@1"
+        },
+        {
+          "command": "fuckdoc.addAnnotationFF",
+          "group": "mygroup@2"
+        }
       ]
     }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "tsup",
-    "watch": "tsup --watch",
-    "package": "tsup",
+    "package": "webpack --mode production",
+    "watch": "webpack --watch",
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
@@ -47,10 +74,13 @@
     "eslint": "^8.14.0",
     "glob": "^8.0.1",
     "mocha": "^9.2.2",
-    "tsup": "5.11.11",
-    "typescript": "^4.6.4"
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.4",
+    "vsce": "^2.7.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "sharp": "^0.30.4"
+    "shorthash": "^0.0.2"
   }
 }
