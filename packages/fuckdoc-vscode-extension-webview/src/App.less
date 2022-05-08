@@ -1,0 +1,179 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+
+.fuck-doc-extension {
+  background-color: #1e1e1e;
+  width: 100vw;
+  height: 100%;
+  min-height: 100vh;
+  position: relative;
+
+  .component-title {
+    padding: 20px;
+    padding-bottom: 10px;
+    color: white;
+  }
+
+  .submit-panel {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+  }
+
+  .upload-panel {
+    width: 100%;
+    height: 350px;
+    // background-color: red;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    & > div {
+      width: 49%;
+      height: 300px;
+      border: 1px solid white;
+      border-radius: 5px;
+    }
+
+
+    .paste-block {
+      position: relative;
+
+      .paste-block-absolute {
+        position: absolute;
+        top: 94px;
+        // right: calc(50% - 24px);
+        color: #bfbfbf;
+        z-index: 9;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        pointer-events: none;
+      }
+
+      .paste-icon {
+        font-size: 45px;
+        margin-bottom: 20px;
+      }
+
+      .paste-text {
+        font-size: 25px;
+        color: #bfbfbf;
+      }
+
+      .paste-area {
+        height: 298px;
+        resize: none;
+        font-size: 25px;
+        line-height: 348px;
+        text-align: center;
+        background-color: #39393b;
+        // font-weight: 300;
+        caret-color: white;
+        border: 0;
+        border-radius: 5px;
+        overflow: hidden;
+        color: #39393b;
+      }
+    }
+
+    // .upload-block {
+
+    //   .ant-spin-container.ant-spin-blur {
+    //     height: 300px;
+    //   }
+    // }
+
+    
+
+    .ant-upload-list.ant-upload-list-text {
+      display: none;
+    }
+
+    .ant-upload-drag {
+      background-color: #39393b;
+      border: 0;
+      border-radius: 5px;
+      height: 298px;
+
+      .ant-upload-text {
+        font-size: 25px;
+        color: #bfbfbf;
+        
+      }
+
+      .anticon.anticon-inbox {
+        color: #bfbfbf;
+      }
+    }
+  }
+
+
+  .preview-panel {
+    width: 100%;
+
+
+    padding: 10px;
+    border-top: 1px solid rgba(100,100, 100,.5);
+
+    color: white;
+
+    .preview-title {
+      font-size: 16px;
+      padding-left: 10px;
+    }
+
+    .preview-item-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+
+      & > div {
+        min-width: 200px;
+        height: 200px;
+        margin: 10px;
+        position: relative;
+        border: 1px solid white;
+        max-width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: auto;
+          height: auto;
+        }
+
+        .close-icon {
+          width: 25px;
+          height: 25px;
+          background-color: black;
+          position: absolute;
+          top: 0;
+          right: 0;
+          cursor: pointer;
+          border-bottom-left-radius: 5px;
+          
+          .delete-icon {
+            font-size: 16px;
+            text-align: center;
+            width: 100%;
+            line-height: 28px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ant-btn-primary {
+  background-color: #880808 !important;
+  border-color: #880808 !important;
+
+  &:hover {
+    background-color: rgb(183, 18, 18) !important;
+  }
+}

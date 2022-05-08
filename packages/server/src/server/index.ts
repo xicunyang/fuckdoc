@@ -28,23 +28,40 @@ const wait = time =>
 
 const doOpenEditor = (path: string) =>
   new Promise((r, j) => {
-    const editor = openInEditor.configure(
-      {
-        editor: 'code'
-      },
-      function (err) {
-        j(err);
-      }
-    );
 
-    editor.open(path).then(
-      function () {
-        r(true);
-      },
-      function (err) {
-        j(err);
+    launch(
+      // filename:line:column
+      // both line and column are optional
+      path,
+      // try specific editor bin first (optional)
+      'code',
+      // callback if failed to launch (optional)
+      (fileName, errorMsg) => {
+        // log error if any
+        j(errorMsg)
       }
-    );
+    )
+
+    r(true)
+
+
+    // const editor = openInEditor.configure(
+    //   {
+    //     editor: 'code'
+    //   },
+    //   function (err) {
+    //     j(err);
+    //   }
+    // );
+
+    // editor.open(path).then(
+    //   function () {
+    //     r(true);
+    //   },
+    //   function (err) {
+    //     j(err);
+    //   }
+    // );
   });
 
 export const initServer = (config: IConfig) => {
