@@ -1,0 +1,24 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+
+  $ make <target...> [options]
+
+  Options:
+    --help             Show this help output
+    --version          Show package version
+    --debug            Enable extended log output
+ 
+
+  Targets:
+    build              Run target build
+
+  Templates:
+    ava                Generate ava setup (ava)
+    cli                Generate cli setup (minimist, tabtab, ge...)
+    default            Generate default setup (babel-cli, babel-plu...)
+    eslint             Generate eslint setup (eslint, eslint-confi...)
+    livereactload      Generate livereactload setup (babel-plugin-react-t...)
+    mocha              Generate mocha setup (mocha)
+    simple             Generate simple setup
+
+
+ 

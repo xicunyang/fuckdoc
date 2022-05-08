@@ -3,7 +3,7 @@
   "displayName": "fuckdoc-vscode-extension",
   "description": "a vscode extension for fuckdoc",
   "publisher": "xicunyang",
-  "version": "1.0.2",
+  "version": "1.0.8",
   "engines": {
     "vscode": "^1.66.0"
   },

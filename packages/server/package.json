@@ -1,6 +1,6 @@
 {
   "name": "fuckdoc",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "description": "An NPM package for component document generator",
   "main": "./dist/index.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "files": [
     "dist/index.js",
     "client/main.js",
+    "client/favicon.ico",
     "client/index.html",
     "package.json",
     "README.md"

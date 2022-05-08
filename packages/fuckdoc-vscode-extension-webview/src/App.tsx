@@ -112,7 +112,9 @@ const App = () => {
         } else {
           message.success('已添加到预览区域');
         }
-      } catch (e) {}
+      } catch (e) {
+        message.error(String(e));
+      }
 
       setPasteloading(false);
     };
@@ -164,7 +166,10 @@ const App = () => {
                 try {
                   const newFileBase64 = await transform2Webp(info);
                   setImageSrcArr([...imageSrcArr, newFileBase64]);
-                } catch (e) {}
+                  message.success('已添加到预览区域');
+                } catch (e) {
+                  message.error(String(e));
+                }
 
                 setUpdateloading(false);
                 return false;

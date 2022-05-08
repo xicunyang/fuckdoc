@@ -22,6 +22,14 @@ class WebviewPanel {
 
   constructor(selectedFilePath, extensionUri, isDiff) {
     this.selectedFilePath = selectedFilePath;
+
+    if (process.platform === 'win32') {
+      // 兼容windows中的路径
+      // win中是 /c:/Users/Administxxxxxx
+      // 不需要这个前面的 /
+      this.selectedFilePath = selectedFilePath.substring(1, selectedFilePath.length);
+    }
+
     this.extensionUri = extensionUri;
     this._isDiff = isDiff;
 
