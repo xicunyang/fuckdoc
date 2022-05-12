@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import axios from 'axios';
+
 const fs = require('fs');
 const shorthash = require('shorthash');
 
@@ -116,8 +118,6 @@ class WebviewPanel {
   }
 
   _update() {
-    console.log('update');
-
     WebviewPanel.currentPanel.webview.html = this._createHtml();
   }
 
@@ -175,9 +175,21 @@ function injectCode(title: string) {
   });
 }
 
+export const reportLog = ({ where = 'unknown', c_num = 0, f_num = 0 }) => {
+  try {
+    const { platform } = process;
+    axios.get(
+      `http://fuckdoc-log.cn-beijing.log.aliyuncs.com/logstores/npm/track?APIVersion=0.6.0&platform=${platform}&where=${where}&c_num=${c_num}&f_num=${f_num}`
+    );
+  } catch (e) {}
+};
+
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand('fuckdoc.addPic', async (uri: any) => {
+      reportLog({
+        where: 'add-pic',
+      });
       const selectedFilePath = uri.path as string;
 
       try {
@@ -193,12 +205,18 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('fuckdoc.addAnnotationFC', async (uri: any) => {
+      reportLog({
+        where: 'add-annotation-fc',
+      });
       injectCode('F:C');
     })
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand('fuckdoc.addAnnotationFF', async (uri: any) => {
+      reportLog({
+        where: 'add-annotation-ff',
+      });
       injectCode('F:F');
     })
   );

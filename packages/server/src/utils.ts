@@ -1,4 +1,5 @@
 import { IConfig, ICodeCommentInfo, ResourceType, ICollectItemRes } from './type';
+import axios from 'axios';
 
 const path = require('path');
 const fs = require('fs');
@@ -265,6 +266,12 @@ export const scanData = async () => {
 
   const config = await loadConfig();
 
+  reportLog({
+    where: 'scan_data',
+    c_num: FCArr.length,
+    f_num: FFArr.length
+  });
+
   return {
     [ResourceType.FC]: FCArr,
     [ResourceType.FF]: FFArr,
@@ -283,3 +290,12 @@ export function debounce(fn, wait = 50) {
     }, wait);
   };
 }
+
+export const reportLog = ({ where = 'unknown', c_num = 0, f_num = 0 }) => {
+  try {
+    const { platform } = process;
+    axios.get(
+      `http://fuckdoc-log.cn-beijing.log.aliyuncs.com/logstores/npm/track?APIVersion=0.6.0&platform=${platform}&where=${where}&c_num=${c_num}&f_num=${f_num}`
+    );
+  } catch (e) {}
+};

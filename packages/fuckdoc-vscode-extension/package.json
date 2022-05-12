@@ -3,11 +3,11 @@
   "displayName": "fuckdoc-vscode-extension",
   "description": "a vscode extension for fuckdoc",
   "publisher": "xicunyang",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "engines": {
     "vscode": "^1.66.0"
   },
-  "icon":"icon.png",
+  "icon": "icon.png",
   "categories": [
     "Other"
   ],
@@ -81,6 +81,8 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "axios": "^0.26.1",
+    "follow-redirects": "^1.14.8",
     "shorthash": "^0.0.2"
   }
 }
